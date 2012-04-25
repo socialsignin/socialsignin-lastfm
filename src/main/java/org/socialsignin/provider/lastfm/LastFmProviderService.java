@@ -20,7 +20,7 @@ public class LastFmProviderService extends AbstractProviderService<LastFm> {
 
 	@Override
 	public LastFm getUnauthenticatedApi() {
-		return new LastFmTemplate("spring-social-lastfm/1.0.1-SNAPSHOT",lastFmApiKey);
+		return new LastFmTemplate(lastFmApiKey);
 	}
 
 }
