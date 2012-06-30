@@ -7,15 +7,18 @@ import org.springframework.social.lastfm.api.impl.LastFmTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LastFmProviderService extends AbstractProviderService<LastFm> {
+public class LastFmProviderService extends AbstractProviderService<LastFm,LastFmProviderConfig> {
 
     @Value("${lastfm.consumerKey}")
     private String lastFmApiKey;
 	
-	
-	@Override
-	public Class<LastFm> getApiClass() {
-		return LastFm.class;
+
+	public LastFmProviderService() {
+		super();
+	}
+
+	public LastFmProviderService(LastFmProviderConfig providerConfig) {
+		super(providerConfig);
 	}
 
 	@Override

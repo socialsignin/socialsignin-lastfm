@@ -16,12 +16,18 @@
 package org.socialsignin.provider.lastfm;
 
 import org.socialsignin.provider.AbstractProviderConfig;
+import org.socialsignin.springsocial.security.LastFmConnectInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ConnectInterceptor;
 import org.springframework.social.lastfm.api.LastFm;
+import org.springframework.social.lastfm.api.impl.LastFmTemplate;
+import org.springframework.social.lastfm.auth.LastFmAccessGrant;
 import org.springframework.social.lastfm.pseudooauth2.connect.LastFmPseudoOAuth2ConnectionFactory;
 
 /** 
@@ -30,7 +36,7 @@ import org.springframework.social.lastfm.pseudooauth2.connect.LastFmPseudoOAuth2
 @Configuration
 public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 
-	@Autowired
+	@Autowired(required=false)
 	private LastFmConnectInterceptor lastFmConnectInterceptor;
 
 	@Value("${lastfm.consumerKey}")
@@ -38,6 +44,55 @@ public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 
 	@Value("${lastfm.consumerSecret}")
 	private String lastfmConsumerSecret;
+	
+	public LastFmProviderConfig() {
+		super();
+	}
+	
+	public LastFmProviderConfig(String lastfmConsumerKey,
+			LastFm authenticatedApi) {
+		super(authenticatedApi);
+		this.lastfmConsumerKey = lastfmConsumerKey;
+	}
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,String token,String sessionKey) {
+		super(new LastFmTemplate(new LastFmAccessGrant(token,sessionKey),lastfmConsumerKey,lastfmConsumerSecret));
+		this.lastfmConsumerKey = lastfmConsumerKey;
+		this.lastfmConsumerSecret = lastfmConsumerSecret;
+	}
+	
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,ConnectionRepository connectionRepository,
+			ConnectionFactoryRegistry connectionFactoryRegistry) {
+		super(connectionRepository, connectionFactoryRegistry);
+		this.lastfmConsumerSecret = lastfmConsumerSecret;
+		this.lastfmConsumerSecret  = lastfmConsumerSecret;
+	}
+
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,ConnectionRepository connectionRepository,
+			UsersConnectionRepository usersConnectionRepository,
+			ConnectionFactoryRegistry connectionFactoryRegistry) {
+		super(connectionRepository, usersConnectionRepository,
+				connectionFactoryRegistry);
+		this.lastfmConsumerKey = lastfmConsumerSecret;
+		this.lastfmConsumerSecret  = lastfmConsumerSecret;
+	}
+	
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,String userId,	UsersConnectionRepository usersConnectionRepository,
+			ConnectionFactoryRegistry connectionFactoryRegistry) {
+		super(userId,usersConnectionRepository,
+				connectionFactoryRegistry);
+		this.lastfmConsumerKey = lastfmConsumerKey;
+		this.lastfmConsumerSecret  = lastfmConsumerSecret;
+	}
+	
+	
+
+	public void setLastfmConsumerKey(String lastfmConsumerKey) {
+		this.lastfmConsumerKey = lastfmConsumerKey;
+	}
+
+	public void setLastfmConsumerSecret(String lastfmConsumerSecret) {
+		this.lastfmConsumerSecret = lastfmConsumerSecret;
+	}
 
 	@Override
 	protected ConnectionFactory<LastFm> createConnectionFactory() {
@@ -48,6 +103,11 @@ public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 	@Override
 	protected ConnectInterceptor<LastFm> getConnectInterceptor() {
 		return lastFmConnectInterceptor;
+	}
+
+	@Override
+	public Class<LastFm> getApiClass() {
+		return LastFm.class;
 	}
 
 }
