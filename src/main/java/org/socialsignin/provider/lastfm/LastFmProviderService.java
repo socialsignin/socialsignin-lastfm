@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class LastFmProviderService extends AbstractProviderService<LastFm,LastFmProviderConfig> {
 
-    @Value("${lastfm.consumerKey}")
-    private String lastFmApiKey;
-	
-
 	public LastFmProviderService() {
 		super();
 	}
@@ -23,7 +19,7 @@ public class LastFmProviderService extends AbstractProviderService<LastFm,LastFm
 
 	@Override
 	public LastFm getUnauthenticatedApi() {
-		return new LastFmTemplate(lastFmApiKey);
+		return new LastFmTemplate(providerConfig.getLastfmConsumerKey());
 	}
 
 }

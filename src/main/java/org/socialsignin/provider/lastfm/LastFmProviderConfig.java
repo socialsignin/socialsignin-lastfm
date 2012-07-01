@@ -36,6 +36,14 @@ import org.springframework.social.lastfm.pseudooauth2.connect.LastFmPseudoOAuth2
 @Configuration
 public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 
+	public String getLastfmConsumerKey() {
+		return lastfmConsumerKey;
+	}
+
+	public String getLastfmConsumerSecret() {
+		return lastfmConsumerSecret;
+	}
+
 	@Autowired(required=false)
 	private LastFmConnectInterceptor lastFmConnectInterceptor;
 
@@ -47,6 +55,10 @@ public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 	
 	public LastFmProviderConfig() {
 		super();
+	}
+	
+	public LastFmProviderConfig(String lastfmConsumerKey) {
+		this.lastfmConsumerKey = lastfmConsumerKey;
 	}
 	
 	public LastFmProviderConfig(String lastfmConsumerKey,
