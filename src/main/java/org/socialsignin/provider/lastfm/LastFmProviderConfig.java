@@ -72,31 +72,25 @@ public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 		this.lastfmConsumerSecret = lastfmConsumerSecret;
 	}
 	
-	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,ConnectionRepository connectionRepository,
-			ConnectionFactoryRegistry connectionFactoryRegistry) {
-		super(connectionRepository, connectionFactoryRegistry);
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,ConnectionRepository connectionRepository) {
+		super(connectionRepository);
 		this.lastfmConsumerSecret = lastfmConsumerSecret;
 		this.lastfmConsumerSecret  = lastfmConsumerSecret;
 	}
 
 	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,ConnectionRepository connectionRepository,
-			UsersConnectionRepository usersConnectionRepository,
-			ConnectionFactoryRegistry connectionFactoryRegistry) {
-		super(connectionRepository, usersConnectionRepository,
-				connectionFactoryRegistry);
+			UsersConnectionRepository usersConnectionRepository) {
+		super(connectionRepository, usersConnectionRepository);
 		this.lastfmConsumerKey = lastfmConsumerSecret;
 		this.lastfmConsumerSecret  = lastfmConsumerSecret;
 	}
 	
-	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,String userId,	UsersConnectionRepository usersConnectionRepository,
-			ConnectionFactoryRegistry connectionFactoryRegistry) {
-		super(userId,usersConnectionRepository,
-				connectionFactoryRegistry);
+	public LastFmProviderConfig(String lastfmConsumerKey,String lastfmConsumerSecret,String userId,	UsersConnectionRepository usersConnectionRepository) {
+		super(userId,usersConnectionRepository);
 		this.lastfmConsumerKey = lastfmConsumerKey;
 		this.lastfmConsumerSecret  = lastfmConsumerSecret;
 	}
-	
-	
+
 
 	public void setLastfmConsumerKey(String lastfmConsumerKey) {
 		this.lastfmConsumerKey = lastfmConsumerKey;
@@ -106,11 +100,6 @@ public class LastFmProviderConfig extends AbstractProviderConfig<LastFm> {
 		this.lastfmConsumerSecret = lastfmConsumerSecret;
 	}
 
-	@Override
-	protected ConnectionFactory<LastFm> createConnectionFactory() {
-		return new LastFmPseudoOAuth2ConnectionFactory(lastfmConsumerKey,
-				lastfmConsumerSecret);
-	}
 
 	@Override
 	protected ConnectInterceptor<LastFm> getConnectInterceptor() {
